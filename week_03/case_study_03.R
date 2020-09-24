@@ -27,7 +27,7 @@ gapminder_continent <- gapminder_filtered %>%
             pop = sum(as.numeric(pop)))
 
 # Plotting
-# "group function" refered to the R4DS Chapter 3.6 
+# Looked up "group argument" at R4DS Chapter 3.6 
 # and "https://drsimonj.svbtle.com/plotting-individual-observations-and-group-means-with-ggplot2"
 
 p2 <- ggplot(gapminder_filtered, aes(x=year, y=gdpPercap)) +
