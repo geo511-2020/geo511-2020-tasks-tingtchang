@@ -41,7 +41,7 @@ ggplot()+
 
 
 # Calculate the area of obtained polygon
-by_poly_area <- st_area(ny_polygon) %>%
+ny_poly_area <- st_area(ny_polygon) %>%
   set_units(km^2)
 
-cat("Area:", by_poly_area, "(km^2)")
+print(ny_poly_area)
