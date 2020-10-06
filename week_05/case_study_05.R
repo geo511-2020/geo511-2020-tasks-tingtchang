@@ -25,9 +25,6 @@ ny <- us_states %>%
   filter(NAME == "New York") %>%
   st_transform((crs = albers))
 
-print(canada)
-print(ny)
-
 
 # Spatial operation
 ca_buffer <- canada%>%
