@@ -11,6 +11,7 @@ output:
 
 
 ```{r setup, include=FALSE}
+
 # Load the libraries
 library(tidyverse)
 library(ggplot2)
@@ -22,12 +23,14 @@ co2_data <- read_table("ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_annmean
 
 co2_data <- co2_data %>%
   select(year, mean, unc)
+
 ```
 
 
 ## Annual Mean Carbon Dioxide Concentrations 1959-Present
 
 ```{r timeseries-plot, echo=F, warning=F, message=F}
+
 # Generate timeseries plot
 co2_series <- ggplot(data=co2_data) +
   geom_line(aes(x=year, y=mean), col="orange", size=1.25) +
@@ -35,12 +38,14 @@ co2_series <- ggplot(data=co2_data) +
   theme_light()
 
 co2_series
+
 ```
 
 
 ## Top 10 Annual Mean Carbon Dioxide Concentrations
 
 ```{r top10-co2, echo=F, warning=F, message=F}
+
 # Generate table
 top_ten_co2 <- co2_data %>%
   top_n(10, mean) %>%
@@ -51,10 +56,13 @@ top_ten_co2 <- co2_data %>%
   as_image(width=12, file="top10_c02.png")
 
 top_ten_co2
+
+
+# kable() refers to
+# "https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html"
+
 ```
 
 
-
 <!-- rmarkdown::render("case_study_08.Rmd", output_format="all") -->
-
 
