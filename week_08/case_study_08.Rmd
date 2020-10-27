@@ -1,7 +1,60 @@
 ---
-title: "Case Study 08"
-author: Your Name
-date: August 1, 2020
-output: github_document
+title: "Carbon Dioxide Concentrations at Mauna Loa"
+author: Ting Chang
+date: October 26, 2020
+output:
+  html_document: default
+  github_document: default
+  powerpoint_presentation: default
+  word_document: default
 ---
- 
+
+
+```{r setup, include=FALSE}
+# Load the libraries
+library(tidyverse)
+library(ggplot2)
+library(kableExtra)
+
+
+# Load the data
+co2_data <- read_table("ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_annmean_mlo.txt", skip=56)
+
+co2_data <- co2_data %>%
+  select(year, mean, unc)
+```
+
+
+## Annual Mean Carbon Dioxide Concentrations 1959-Present
+
+```{r timeseries-plot, echo=F, warning=F, message=F}
+# Generate timeseries plot
+co2_series <- ggplot(data=co2_data) +
+  geom_line(aes(x=year, y=mean), col="orange", size=1.25) +
+  labs(x="Year", y="Mean Loa Annual Mean CO_2 (ppm)") +
+  theme_light()
+
+co2_series
+```
+
+
+## Top 10 Annual Mean Carbon Dioxide Concentrations
+
+```{r top10-co2, echo=F, warning=F, message=F}
+# Generate table
+top_ten_co2 <- co2_data %>%
+  top_n(10, mean) %>%
+  arrange(desc(mean)) %>%
+  select(year, mean) %>%
+  knitr::kable(format="html") %>%
+  kable_styling() %>%
+  as_image(width=12, file="top10_c02.png")
+
+top_ten_co2
+```
+
+
+
+<!-- rmarkdown::render("case_study_08.Rmd", output_format="all") -->
+
+
