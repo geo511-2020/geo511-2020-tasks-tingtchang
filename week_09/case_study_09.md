@@ -92,7 +92,7 @@ storm_states %>%
   arrange(desc(storms)) %>%
   slice(1:5) %>%
   st_set_geometry(NULL) %>%
-  knitr::kable(format="simple")
+  knitr::kable(format="simple") #Learned from Betsy from week 8's group discussion
 ```
 
 | state          | storms |
