@@ -1,1 +1,1 @@
- 
+For my project, I think it would be helpful to generate the line plot for domestic violence counts using the dygraph, since it enables users to zoom in to particular time window that they are interested in. As for interactive map, leaflet seems to be really useful. However, since the basic unit for my project is census block group, I think the static choropleth map might be sufficient to show the spatial distribution of domestic violence.
