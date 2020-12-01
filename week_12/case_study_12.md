@@ -1,14 +1,13 @@
----
-title: "Case Study 12"
-author: Ting Chang
-date: November 30, 2020
-output: github_document
----
+Case Study 12
+================
+Ting Chang
+November 30, 2020
 
 # Dynamic HTML graph
 
 ### Load packages
-```{r setup, message=FALSE, warning=FALSE}
+
+``` r
 library(dplyr)
 library(ggplot2)
 library(ggmap)
@@ -17,7 +16,8 @@ library(widgetframe)
 ```
 
 ### Download daily weather data
-```{r data, message=FALSE, warning=FALSE, results='hide'}
+
+``` r
 library(tidyverse)
 library(rnoaa)
 library(xts)
@@ -35,15 +35,19 @@ d=meteo_tidy_ghcnd(stationid = "USW00014733",
 ```
 
 ### Plot the daily maximum temperature
-```{r plot, message=FALSE, warning=FALSE}
+
+``` r
 tmax_xts <- xts(d$tmax, order.by = d$date)
 
 dygraph(tmax_xts, main="Daily Maximum Temperature in Buffalo, NY") %>%
     dyRangeSelector(dateWindow = c("2020-01-01", "2020-10-31"))
 ```
 
+![](case_study_12_files/figure-gfm/plot-1.png)<!-- -->
+
 ### Explore other variables
-```{r explore, message=FALSE, warning=FALSE}
+
+``` r
 d_2019 <- filter(d, date >= "2019-01-01" & date <= "2019-12-31")
 
 tmax_19_xts <- xts(d_2019$tmax, order.by = d_2019$date)
@@ -59,3 +63,5 @@ dygraph(weather_19, main = "Maximum temperature and Snowfall in Buffalo, NY") %>
   dyOptions(stackedGraph = TRUE) %>%
   dyRangeSelector()
 ```
+
+![](case_study_12_files/figure-gfm/explore-1.png)<!-- -->
