@@ -1,13 +1,13 @@
----
-title: "Case Study 10"
-author: Ting Chang
-date: November 11, 2020
-output: github_document
----
+Case Study 10
+================
+Ting Chang
+November 11, 2020
+
 # Satellite Remote Sensing
 
 ## Load Related Libraries and Data in R
-```{r setup, warning=FALSE, message=FALSE}
+
+``` r
 # Libraries
 library(raster)
 library(rasterVis)
@@ -22,8 +22,10 @@ library(ncdf4)
 ```
 
 ## Land Use Land Cover
+
 ### Preparing LULC Data
-```{r lulc-preparation, results='hide', warning=FALSE, message=FALSE, error=FALSE}
+
+``` r
 # Create a folder to hold the downloaded data
 dir.create("data",showWarnings = F)
 
@@ -40,9 +42,9 @@ lulc=stack("data/MCD12Q1.051_aid0001.nc",varname="Land_Cover_Type_1")
 lst=stack("data/MOD11A2.006_aid0001.nc",varname="LST_Day_1km")
 ```
 
-
 ### LULC Data Processing
-```{r lulc-processing, warning=FALSE, message=FALSE}
+
+``` r
 # # Explore Data
 # plot(lulc)
 
@@ -82,8 +84,18 @@ lcd=data.frame(
 kable(head(lcd))
 ```
 
+|                             |  ID | landcover                   | col      |
+|:----------------------------|----:|:----------------------------|:---------|
+| Water                       |   0 | Water                       | \#000080 |
+| Evergreen Needleleaf forest |   1 | Evergreen Needleleaf forest | \#008000 |
+| Evergreen Broadleaf forest  |   2 | Evergreen Broadleaf forest  | \#00FF00 |
+| Deciduous Needleleaf forest |   3 | Deciduous Needleleaf forest | \#99CC00 |
+| Deciduous Broadleaf forest  |   4 | Deciduous Broadleaf forest  | \#99FF99 |
+| Mixed forest                |   5 | Mixed forest                | \#339966 |
+
 ### LULC Plot
-```{r lulc-plot, warning=FALSE, message=FALSE}
+
+``` r
 # convert to raster (easy)
 lulc=as.factor(lulc)
 
@@ -104,10 +116,13 @@ lulc_plot <- gplot(lulc)+
 lulc_plot
 ```
 
+![](case_study_10_files/figure-gfm/lulc-plot-1.png)<!-- -->
 
 ## Land Surface Temperature
+
 ### LST Data Process
-```{r lst-process, warning=FALSE, message=FALSE}
+
+``` r
 # Convert temperature
 # plot(lst[[1:12]])
 
@@ -126,9 +141,10 @@ lst=setZ(lst,tdates)
 ```
 
 ## Task 1
+
 Extract LST values for a single point and plot them.
 
-```{r task-1, warning=FALSE, message=FALSE, results='hide'}
+``` r
 # Define spatial point
 lw = SpatialPoints(data.frame(x= -78.791547,y=43.007211))
 
@@ -149,7 +165,7 @@ lw_combine <- data.frame(
   value=lw_temp)
 ```
 
-```{r task-1-results, warning=FALSE, message=FALSE}
+``` r
 # Plot the results
 lw_plot <- ggplot(lw_combine, aes(x=date, y=value)) +
   geom_point()+
@@ -158,10 +174,13 @@ lw_plot <- ggplot(lw_combine, aes(x=date, y=value)) +
 lw_plot
 ```
 
+![](case_study_10_files/figure-gfm/task-1-results-1.png)<!-- -->
+
 ## Task 2
+
 Summarize weekly data to monthly climatologies
 
-```{r task-2, warning=FALSE, message=FALSE}
+``` r
 # Convert dates to months
 tmonth <- as.numeric(format(getZ(lst),"%m"))
 
@@ -169,7 +188,8 @@ tmonth <- as.numeric(format(getZ(lst),"%m"))
 lst_month <- stackApply(lst, tmonth, fun=mean)
 names(lst_month)=month.name
 ```
-```{r task-2-results, warning=FALSE, message=FALSE}
+
+``` r
 # Plot the results
 lst_monthly_plot <-gplot(lst_month) +
   geom_raster(aes(fill=value))+
@@ -182,16 +202,37 @@ lst_monthly_plot <-gplot(lst_month) +
         axis.text.y=element_blank())
 
 lst_monthly_plot
+```
 
+![](case_study_10_files/figure-gfm/task-2-results-1.png)<!-- -->
+
+``` r
 # Calculate the monthly mean
 monthly_mean <- cellStats(lst_month, mean)
 kable(monthly_mean, format='simple', col.names='Mean')
 ```
 
-## Task 3
-Summarize Land Surface Temperature in Urban & built-up and Deciduous Broadleaf forest areas.
+|           |      Mean |
+|-----------|----------:|
+| January   | -2.127506 |
+| February  |  8.710271 |
+| March     | 18.172077 |
+| April     | 23.173591 |
+| May       | 26.990005 |
+| June      | 28.840144 |
+| July      | 27.358260 |
+| August    | 22.927727 |
+| September | 15.477510 |
+| October   |  8.329881 |
+| November  |  0.586179 |
+| December  | -4.754134 |
 
-```{r task-3, warning=FALSE, message=FALSE}
+## Task 3
+
+Summarize Land Surface Temperature in Urban & built-up and Deciduous
+Broadleaf forest areas.
+
+``` r
 # Resample the LULC data
 lulc_resample <- resample(lulc, lst, method='ngb')
 
@@ -217,7 +258,7 @@ urban_forest_temp <- merge_lulc_temp %>%
   filter(landcover%in%c("Urban & built-up","Deciduous Broadleaf forest"))
 ```
 
-```{r task-3-results, warning=FALSE, message=FALSE}
+``` r
 # Plot out the results
 library(ggridges)
 library(viridisLite)
@@ -230,4 +271,4 @@ urban_forest_plot <- ggplot(urban_forest_temp, aes(x=value, y=month, fill=stat(x
 urban_forest_plot
 ```
 
-
+![](case_study_10_files/figure-gfm/task-3-results-1.png)<!-- -->

@@ -1,13 +1,13 @@
----
-title: "Case Study 09"
-author: Ting Chang
-date: November 2, 2020
-output: github_document
----
+Case Study 09
+================
+Ting Chang
+November 2, 2020
+
 # Tracking Hurricanes!
 
 ### Load libraries and data
-```{r setup, warning=FALSE, message=FALSE}
+
+``` r
 # Libraries and Data
 library(sf)
 library(tidyverse)
@@ -29,13 +29,15 @@ unzip(file.path(tdir,"temp.zip"),exdir = tdir)
 ```
 
 ### Read storm data
-```{r read-data, results='hide'}
+
+``` r
 # Read Storm Data
 storm_data <- read_sf(list.files(tdir,pattern=".shp",full.names = T))
 ```
 
 ### Prepare storm sf object
-```{r prepare-sf, results='hide'}
+
+``` r
 # Clean Up Storm Data
 storm_1950 <- storm_data %>%
   filter(SEASON >= 1950) %>%
@@ -47,7 +49,8 @@ region <- st_bbox(storm_1950)
 ```
 
 ### Plot the storms
-```{r plot, warning=FALSE, message=FALSE}
+
+``` r
 # Plot Out Storms by Each Decade
 storm_plot <- ggplot(data=world) +
   geom_sf() +
@@ -61,8 +64,11 @@ storm_plot <- ggplot(data=world) +
 storm_plot
 ```
 
+![](case_study_09_files/figure-gfm/plot-1.png)<!-- -->
+
 ### Top 5 States that have experienced the most storms
-```{r table, warning=FALSE, message=FALSE}
+
+``` r
 # Library for Generating Table
 library(kableExtra)
 
@@ -87,7 +93,12 @@ storm_states %>%
   slice(1:5) %>%
   st_set_geometry(NULL) %>%
   knitr::kable(format="simple") #Learned from Betsy from week 8's group discussion
-
 ```
 
-
+| state          | storms |
+|:---------------|-------:|
+| Florida        |     82 |
+| North Carolina |     62 |
+| Georgia        |     57 |
+| Texas          |     53 |
+| Louisiana      |     49 |

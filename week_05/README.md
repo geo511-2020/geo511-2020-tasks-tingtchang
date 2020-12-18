@@ -1,1 +1,3 @@
- 
+I don't want to sound lazy, but by going through chapter 1 and 2, I really found the function plot() to be most useful. In my experience, working with spatial data, it's always good to get a glimpse of how the data look like. However, it's not always easy to plot out the data, and plot() is such a simple and neat solution.
+
+I also found it to be phenomenal that sf package can work with pipeline. Like the demonstration in class, it's pretty amazing that you can group_by and summarize the non-spatial attributes, and the geometries will be aggregated automatically.

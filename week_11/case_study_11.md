@@ -1,15 +1,13 @@
----
-title: "Case Study 11"
-author: Ting Chang
-date: November 17, 2020
-output: github_document
----
+Case Study 11
+================
+Ting Chang
+November 17, 2020
 
 # Racial Distribution in Buffalo, NY
 
 ### Set Up
 
-```{r set-up, message=FALSE, warning=FALSE}
+``` r
 library(tidyverse)
 library(spData)
 library(sf)
@@ -22,8 +20,11 @@ registerDoParallel(4)
 getDoParWorkers() # check registered cores
 ```
 
+    ## [1] 4
+
 ### Download Census Data
-```{r census-data, message=FALSE, warning=FALSE, results='hide'}
+
+``` r
 racevars <- c(White = "P005003", 
               Black = "P005004", 
               Asian = "P005006", 
@@ -36,14 +37,15 @@ erie <- get_decennial(geography = "block", variables = racevars,
 ```
 
 ### Crop the Downloaded Data
-```{r crop, message=FALSE, warning=FALSE}
+
+``` r
 boundary <- c(xmin=-78.9,xmax=-78.85,ymin=42.888,ymax=42.92)
 erie_crop <- st_crop(erie, boundary)
 ```
 
-
 ### Generate Dots to Represent Racial Distribution
-```{r dots, message=FALSE, warning=FALSE}
+
+``` r
 erie_crop$variable <- as.factor(erie_crop$variable)
 
 dot_output <- foreach(i=1:4, .combine='rbind', .packages = c("tidyverse","sf")) %dopar% {
@@ -65,8 +67,9 @@ dot_output <- foreach(i=1:4, .combine='rbind', .packages = c("tidyverse","sf")) 
 ```
 
 ### Plot the Dot Map
-```{r plot, message=FALSE, warning=FALSE}
+
+``` r
 mapview(dot_output, zcol="variable", cex=1, lwd=0)
 ```
 
-
+![](case_study_11_files/figure-gfm/plot-1.png)<!-- -->

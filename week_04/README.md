@@ -1,1 +1,1 @@
- 
+I think that the separate() function is quite useful. I've found that when processing spreadsheet in excel, I have been using the function text-to-column a lot, which is basically separating the existing column based on different criteria. One example is when processing the US census data, I often need to split the FIPs code into several columns.
